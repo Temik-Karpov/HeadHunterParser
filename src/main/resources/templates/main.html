@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Данных в таблице:</h2>
+<h2 th:text="${countOfVacancy}"></h2>
+<div th:if="${count != null}">
+    <h2>Собрано вакансий:</h2>
+    <h2 th:text="${count}"></h2>
+</div>
+<div th:if="${time != null}">
+    <h2>Среднее время на обработку вакансии(мс):</h2>
+    <h2 th:text="${time}"></h2>
+</div>
+<h3>Собрать данные за сегодня:</h3>
+<form th:method="post" th:action="@{/calculate}" th:object="${CollectInfo}">
+    <label>Выберите город:</label>
+    <select name="town" id="town" field="*{town}" required>
+        <option value = "Санкт-Петербург">Санкт-Петербург</option>
+        <option value = "Москва">Москва</option>
+    </select>
+    <br>
+    <label>Со страницы</label>
+    <input type="text" id="firstPage" name="firstPage" field="*{firstPage}"><br>
+    <label>До страницы:</label>
+    <input type="text" id="lastPage" name="lastPage" field="*{lastPage}"><br>
+    <button type="submit">Парсить</button>
+</form>
+<h3>Проанализировать имеющие данные:</h3>
+<form method="get" action="/analyse/vacancyCount">
+    <button type="submit">Количество вакансий всего</button>
+</form>
+<br>
+<form method="post" action="/analyse/vacancyTown">
+    <select name="town" id="town" required>
+        <option value = "Санкт-Петербург">Санкт-Петербург</option>
+        <option value = "Москва">Москва</option>
+    </select>
+    <br>
+    <button type="submit">Количество вакансий</button>
+</form>
+<br>
+<form method="get" action="/analyse/vacancyLanguages">
+    <button type="submit">Количество по языкам</button>
+</form>
+<br>
+<form method="post" action="/analyse/vacancyAvgSalary">
+    <select name="town" id="town" required>
+        <option value = "Санкт-Петербург">Санкт-Петербург</option>
+        <option value = "Москва">Москва</option>
+    </select>
+    <br>
+    <button type="submit">Средняя зарплата</button>
+</form>
+<br>
+<form method="get" action="/analyse/vacancyCompany">
+    <button type="submit">Найти компанию</button>
+</form>
+<br>
+<form method="post" action="/analyse/vacancyAvgSalary/language">
+    <select name="town" id="town" required>
+        <option value = "Санкт-Петербург">Санкт-Петербург</option>
+        <option value = "Москва">Москва</option>
+    </select>
+    <br>
+    <button type="submit">Средняя зарплата по языкам</button>
+</form>
+<br>
+<form method="get" action="/analyse/vacancyMetro">
+    <button type="submit">Распределение офисов по метро Питера</button>
+</form>
+<br>
+<form method="get" action="/analyse/excelOutput">
+    <button type="submit">Выгрузить данные в excel</button>
+</form>
+
+</body>
+</html>
