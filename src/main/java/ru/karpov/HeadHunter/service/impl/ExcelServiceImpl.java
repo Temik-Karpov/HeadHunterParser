@@ -13,10 +13,17 @@ import java.util.Map;
 @Service
 public class ExcelServiceImpl implements ExcelService {
 
+    private final FileInputStream fis;
+    private final Workbook workbook;
+    private final String file = "results.xls";
+
+    public ExcelServiceImpl() throws IOException {
+        this.fis = new FileInputStream(new File(file));
+        this.workbook = new HSSFWorkbook(fis);
+    }
+
     @Override
     public void addVacancyTown(final Integer countSaint, final Integer countMoscow) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
 
         sheet.createRow(2).createCell(0).setCellValue("Кол-во вакансий по городам");
@@ -29,15 +36,13 @@ public class ExcelServiceImpl implements ExcelService {
 
 
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
 
     @Override
     public void addVacancyLanguages(final Map<String, Integer> countLanguages) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
 
         Row row = sheet.createRow(13);
@@ -52,7 +57,7 @@ public class ExcelServiceImpl implements ExcelService {
             rowCount++;
         }
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
@@ -60,8 +65,6 @@ public class ExcelServiceImpl implements ExcelService {
     @Override
     public void addVacancyAvgSalary(final Integer avg1, final String town1,
                                     final Integer avg2, final String town2) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
 
         sheet.createRow(6).createCell(0).setCellValue("Средние зарпалыт по городам");
@@ -72,15 +75,13 @@ public class ExcelServiceImpl implements ExcelService {
         sheet.getRow(8).createCell(1).setCellValue(avg2);
 
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
 
     @Override
     public void addVacancyCompany(final Integer max, final String company) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
 
         sheet.createRow(10).createCell(0).setCellValue("Лидер среди компаний по вакансиям");
@@ -90,7 +91,7 @@ public class ExcelServiceImpl implements ExcelService {
         row.createCell(0).setCellValue(company);
         row.createCell(1).setCellValue(max);
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
@@ -98,8 +99,6 @@ public class ExcelServiceImpl implements ExcelService {
     @Override
     public void addVacancyAvgSalaryLanguage(final Map<String, Integer> sumLanguages1,
                                             final Map<String, Integer> sumLanguages2) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
         Row row = sheet.createRow(24);
         row.createCell(0).setCellValue("Средняя зарплата по языкам Санкт-Петербурга");
@@ -123,15 +122,13 @@ public class ExcelServiceImpl implements ExcelService {
         }
 
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
 
     @Override
     public void addVacancyMetro(final Map<String, Integer> countMetro) throws IOException{
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
         sheet.createRow(46).createCell(0).setCellValue("Кол-во вакансий по станциям метро Питера");
         int rowCount = 47;
@@ -143,22 +140,20 @@ public class ExcelServiceImpl implements ExcelService {
             rowCount++;
         }
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
 
     @Override
     public void addVacancyCount(final long count) throws IOException {
-        FileInputStream fis = new FileInputStream(new File("test.xls"));
-        Workbook workbook = new HSSFWorkbook(fis);
         Sheet sheet = workbook.getSheetAt(0);
         int rowCount = 0;
         Row row = sheet.createRow(rowCount);
         row.createCell(0).setCellValue("Всего вакансий:");
         row.createCell(1).setCellValue(count);
         fis.close();
-        try (FileOutputStream fos = new FileOutputStream("test.xls")) {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
             workbook.write(fos);
         }
     }
